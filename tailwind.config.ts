@@ -57,6 +57,9 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "search-bg": "hsl(var(--search-bg))",
+        "card-border": "hsl(var(--card-border))",
+        "dialog-cyan": "hsl(var(--dialog-cyan))",
       },
       borderRadius: {
         lg: "var(--radius)",

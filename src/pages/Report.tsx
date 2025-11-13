@@ -1,57 +1,96 @@
-import { BottomNav } from "@/components/BottomNav";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Download, Calendar } from "lucide-react";
+import { useState } from "react";
+import { Search, Flag } from "lucide-react";
+import { BottomNavigation } from "@/components/BottomNavigation";
+import { DownloadReportDialog } from "@/components/DownloadReportDialog";
+import { toast } from "@/hooks/use-toast";
+
+interface ReportItem {
+  id: number;
+  name: string;
+  date: string;
+}
 
 const Report = () => {
-  const reports = [
-    { id: 1, title: "Report Januari 2024", date: "2024-01-31", status: "Completed" },
-    { id: 2, title: "Report Februari 2024", date: "2024-02-29", status: "Completed" },
-    { id: 3, title: "Report Maret 2024", date: "2024-03-31", status: "In Progress" },
-  ];
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedReport, setSelectedReport] = useState<ReportItem | null>(null);
+  const [reports] = useState<ReportItem[]>([
+    { id: 1, name: "Report-27-10-2025", date: "27-10-2025" },
+    { id: 2, name: "Report-26-10-2025", date: "26-10-2025" },
+    { id: 3, name: "Report-25-10-2025", date: "25-10-2025" },
+    { id: 4, name: "Report-18-10-2025", date: "18-10-2025" },
+    { id: 5, name: "Report-10-10-2025", date: "10-10-2025" },
+  ]);
 
-  const handleDownload = (reportId: number) => {
-    console.log("Downloading report:", reportId);
-    // Implement download logic here
+  const handleReportClick = (report: ReportItem) => {
+    setSelectedReport(report);
+    setDialogOpen(true);
   };
 
-  return (
-    <div className="min-h-screen bg-background pb-24">
-      <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <h1 className="text-3xl font-bold text-foreground mb-6">Report</h1>
+  const handleDownload = () => {
+    toast({
+      title: "Download selesai",
+      description: `${selectedReport?.name} berhasil didownload`,
+    });
+  };
 
-        <div className="space-y-3">
-          {reports.map((report) => (
-            <Card key={report.id} className="p-4">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="font-semibold text-foreground mb-1">{report.title}</h3>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="w-4 h-4" />
-                    <span>{report.date}</span>
-                    <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
-                      report.status === "Completed" 
-                        ? "bg-green-100 text-green-800" 
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}>
-                      {report.status}
-                    </span>
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleDownload(report.id)}
-                  disabled={report.status !== "Completed"}
-                >
-                  <Download className="w-4 h-4" />
-                </Button>
-              </div>
-            </Card>
-          ))}
+  const filteredReports = reports.filter((report) =>
+    report.date.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="min-h-screen bg-background flex justify-center">
+      <div className="w-full max-w-[393px] h-[852px] relative">
+        {/* Header */}
+        <div className="pt-[46px] px-7">
+          <h1 className="text-[30px] font-bold text-foreground">Report</h1>
         </div>
+
+        {/* Search Bar */}
+        <div className="mt-8 px-[37px]">
+          <div className="relative w-full">
+            <div className="h-[47px] rounded-[5px] bg-search-bg/40 flex items-center px-4 gap-3">
+              <Search className="w-8 h-8 text-muted-foreground flex-shrink-0" />
+              <input
+                type="text"
+                placeholder="Cari tanggal"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 bg-transparent border-none outline-none text-base font-medium text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Report List Container */}
+        <div className="mt-6 mx-[37px] rounded-[10px] bg-[#D9E9FC]/40 p-0 min-h-[590px] overflow-hidden">
+          <div className="divide-y divide-border/20">
+            {filteredReports.map((report) => (
+              <button
+                key={report.id}
+                onClick={() => handleReportClick(report)}
+                className="w-full h-[52px] px-4 flex items-center gap-4 hover:bg-background/30 transition-colors group"
+              >
+                <Flag className="w-5 h-5 text-destructive fill-destructive flex-shrink-0" />
+                <span className="text-[15px] font-medium text-[#1FB5E8] group-hover:text-[#1BA5D8] transition-colors">
+                  {report.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom Navigation */}
+        <BottomNavigation currentPage="report" />
+
+        {/* Download Dialog */}
+        <DownloadReportDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          reportName={selectedReport?.name || ""}
+          onConfirm={handleDownload}
+        />
       </div>
-      <BottomNav />
     </div>
   );
 };

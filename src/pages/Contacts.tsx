@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ContactCard } from "@/components/ContactCard";
-import { BottomNav } from "@/components/BottomNav";
+import { BottomNavigation } from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Plus, Filter } from "lucide-react";
@@ -64,7 +64,7 @@ const Contacts = () => {
           )}
         </div>
       </div>
-      <BottomNav />
+      <BottomNavigation currentPage="contact" />
     </div>
   );
 };
