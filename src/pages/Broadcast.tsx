@@ -87,10 +87,16 @@ const Broadcast = () => {
 
   const handleToggleTemplate = (templateId: string) => {
     setSelectedTemplates(prev => {
-      if (prev.includes(templateId)) {
-        return prev.filter(id => id !== templateId);
+      if (spinText) {
+        // Multi selection jika spin text ON
+        if (prev.includes(templateId)) {
+          return prev.filter(id => id !== templateId);
+        } else {
+          return [...prev, templateId];
+        }
       } else {
-        return [...prev, templateId];
+        // Single selection jika spin text OFF
+        return [templateId];
       }
     });
   };
@@ -252,17 +258,6 @@ const Broadcast = () => {
               <Switch checked={spinText} onCheckedChange={setSpinText} />
             </div>
 
-            {/* SpinText Options */}
-            {spinText && (
-              <div className="w-full rounded-[3px] border border-border bg-card p-3">
-                <p className="text-[10px] text-muted-foreground mb-2">
-                  Gunakan format: {"{"}pilihan1|pilihan2|pilihan3{"}"} dalam pesan
-                </p>
-                <p className="text-[10px] text-foreground">
-                  Contoh: Halo {"{"}nama|bro|kak{"}"}, dapatkan {"{"}diskon|potongan harga|promo{"}"} hari ini!
-                </p>
-              </div>
-            )}
           </div>
         </div>
 

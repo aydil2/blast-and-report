@@ -23,15 +23,15 @@ export const ContactCard = ({
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
   const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
   const labels = [
-    { id: "vip", name: "VIP", color: "bg-green-500" },
-    { id: "new", name: "New", color: "bg-yellow-500" },
-    { id: "important", name: "Important", color: "bg-red-500" },
+    { id: "vip", name: "VIP", color: "bg-primary" },
+    { id: "new", name: "New", color: "bg-accent" },
+    { id: "important", name: "Important", color: "bg-destructive" },
   ];
 
   const labelColors = {
-    red: "bg-red-100 text-red-700",
-    yellow: "bg-yellow-100 text-yellow-700",
-    green: "bg-green-100 text-green-700"
+    red: "bg-destructive/10 text-destructive",
+    yellow: "bg-accent text-accent-foreground",
+    green: "bg-primary/10 text-primary"
   };
   const handleTouchStart = () => {
     if (onLongPress !== undefined) return;
