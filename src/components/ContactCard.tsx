@@ -25,20 +25,20 @@ export const ContactCard = ({
   const labels = [{
     id: "pegawai-baru",
     name: "Pegawai Baru",
-    color: "bg-blue-400"
+    color: "bg-primary"
   }, {
     id: "pegawai-lama",
     name: "Pegawai Lama",
-    color: "bg-yellow-400"
+    color: "bg-accent"
   }, {
     id: "ultramen-jingga",
     name: "Ultramen jingga",
-    color: "bg-blue-300"
+    color: "bg-secondary"
   }];
   const labelColors = {
-    red: "bg-red-100 text-red-800",
-    yellow: "bg-yellow-100 text-yellow-800",
-    green: "bg-green-100 text-green-800"
+    red: "bg-destructive/10 text-destructive",
+    yellow: "bg-accent text-accent-foreground",
+    green: "bg-primary/10 text-primary"
   };
   const handleTouchStart = () => {
     if (onLongPress !== undefined) return;
@@ -80,7 +80,7 @@ export const ContactCard = ({
   };
   return <>
       <div className="flex items-center gap-4 p-4 bg-card border border-border rounded-lg hover:shadow-md transition-all duration-200 hover:border-primary/50 cursor-pointer select-none" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-[#f5a438]">
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary">
           <span className="text-primary-foreground font-semibold">{initial}</span>
         </div>
         
