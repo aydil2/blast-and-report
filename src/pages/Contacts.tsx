@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { ContactCard } from "@/components/ContactCard";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Plus, Filter } from "lucide-react";
+import { AddContactDialog } from "@/components/AddContactDialog";
+import { FilterContactDialog } from "@/components/FilterContactDialog";
 
 const Contacts = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showFilterDialog, setShowFilterDialog] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
 
   const contacts = [
     { id: 1, name: "John Doe", phone: "+62 812 3456 7890", label: { text: "VIP", color: "green" as const } },
@@ -14,20 +20,29 @@ const Contacts = () => {
     { id: 4, name: "Alice Williams", phone: "+62 815 6789 0123", label: { text: "Important", color: "red" as const } },
   ];
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    contact.phone.includes(searchQuery)
-  );
+  const filteredContacts = contacts.filter((contact) => {
+    const matchesSearch = contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      contact.phone.includes(searchQuery);
+    
+    const matchesFilter = selectedFilter.length === 0 || 
+      (contact.label && selectedFilter.includes(contact.label.text));
+    
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-6">List Contact</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-foreground">List Contact</h1>
+          <Button size="sm" className="gap-2" onClick={() => setShowAddDialog(true)}>
+            <Plus className="w-4 h-4" />
+            Add
+          </Button>
         </div>
 
-        <div className="mb-6">
-          <div className="relative">
+        <div className="mb-6 flex gap-2">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               type="text"
@@ -37,6 +52,9 @@ const Contacts = () => {
               className="pl-10"
             />
           </div>
+          <Button variant="outline" size="icon" onClick={() => setShowFilterDialog(true)}>
+            <Filter className="w-4 h-4" />
+          </Button>
         </div>
 
         <div className="space-y-3">
@@ -56,6 +74,15 @@ const Contacts = () => {
           )}
         </div>
       </div>
+      
+      <AddContactDialog open={showAddDialog} onOpenChange={setShowAddDialog} />
+      <FilterContactDialog 
+        open={showFilterDialog} 
+        onOpenChange={setShowFilterDialog}
+        selectedFilters={selectedFilter}
+        onFiltersChange={setSelectedFilter}
+      />
+      
       <BottomNavigation currentPage="contact" />
     </div>
   );
