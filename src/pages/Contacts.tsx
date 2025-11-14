@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { ContactCard } from "@/components/ContactCard";
 import { BottomNavigation } from "@/components/BottomNavigation";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, Filter } from "lucide-react";
+import { Search } from "lucide-react";
 
 const Contacts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,16 +22,12 @@ const Contacts = () => {
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-foreground">List Contact</h1>
-          <Button size="sm" className="gap-2">
-            <Plus className="w-4 h-4" />
-            Add
-          </Button>
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-foreground mb-6">List Contact</h1>
         </div>
 
-        <div className="mb-6 flex gap-2">
-          <div className="relative flex-1">
+        <div className="mb-6">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               type="text"
@@ -42,9 +37,6 @@ const Contacts = () => {
               className="pl-10"
             />
           </div>
-          <Button variant="outline" size="icon">
-            <Filter className="w-4 h-4" />
-          </Button>
         </div>
 
         <div className="space-y-3">
