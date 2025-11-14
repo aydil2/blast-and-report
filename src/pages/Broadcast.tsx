@@ -1,6 +1,6 @@
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
-import { Upload, ChevronDown, MoreVertical, X, Plus } from "lucide-react";
+import { Upload, ChevronDown, MoreVertical, X, Plus, Check } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import {
   DropdownMenu,
@@ -29,7 +29,7 @@ const Broadcast = () => {
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [showTemplateDialog, setShowTemplateDialog] = useState(false);
   const [manualContacts, setManualContacts] = useState<Contact[]>([{ name: "", number: "" }]);
-  const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [selectedTemplates, setSelectedTemplates] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [spinText, setSpinText] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -85,14 +85,39 @@ const Broadcast = () => {
     toast.success(`${validContacts.length} kontak berhasil ditambahkan`);
   };
 
-  const handleSelectTemplate = (templateId: string) => {
-    const template = templates.find(t => t.id === templateId);
-    if (template) {
-      setSelectedTemplate(template.name);
-      setMessage(template.content);
-      setShowTemplateDialog(false);
-      toast.success(`Template "${template.name}" berhasil dipilih`);
+  const handleToggleTemplate = (templateId: string) => {
+    setSelectedTemplates(prev => {
+      if (prev.includes(templateId)) {
+        return prev.filter(id => id !== templateId);
+      } else {
+        return [...prev, templateId];
+      }
+    });
+  };
+
+  const applySelectedTemplates = () => {
+    if (selectedTemplates.length === 0) {
+      toast.error("Pilih minimal 1 template");
+      return;
     }
+    
+    // Jika hanya 1 template, langsung pakai content-nya
+    if (selectedTemplates.length === 1) {
+      const template = templates.find(t => t.id === selectedTemplates[0]);
+      if (template) {
+        setMessage(template.content);
+      }
+    } else {
+      // Jika lebih dari 1, gabungkan dengan format spin text
+      const selectedContents = selectedTemplates
+        .map(id => templates.find(t => t.id === id)?.content)
+        .filter(Boolean);
+      setMessage(`{${selectedContents.join('|')}}`);
+      setSpinText(true);
+    }
+    
+    setShowTemplateDialog(false);
+    toast.success(`${selectedTemplates.length} template dipilih`);
   };
 
   const startBroadcast = async () => {
@@ -205,8 +230,8 @@ const Broadcast = () => {
               onClick={() => setShowTemplateDialog(true)}
               className="w-full h-[31px] rounded-[3px] border border-border bg-card flex items-center justify-between px-3 mb-3 hover:bg-accent transition-colors"
             >
-              <span className={selectedTemplate ? "text-foreground text-xs" : "text-muted-foreground text-xs"}>
-                {selectedTemplate || "Pilih Template"}
+              <span className={selectedTemplates.length > 0 ? "text-foreground text-xs" : "text-muted-foreground text-xs"}>
+                {selectedTemplates.length > 0 ? `${selectedTemplates.length} template dipilih` : "Pilih Template"}
               </span>
               <ChevronDown className="w-4 h-4 text-muted-foreground" />
             </button>
@@ -407,13 +432,31 @@ const Broadcast = () => {
             {templates.map((template) => (
               <button
                 key={template.id}
-                onClick={() => handleSelectTemplate(template.id)}
-                className="w-full p-3 border border-border rounded-md hover:bg-accent transition-colors text-left"
+                onClick={() => handleToggleTemplate(template.id)}
+                className={`w-full p-3 border rounded-md transition-all text-left relative ${
+                  selectedTemplates.includes(template.id) 
+                    ? 'border-primary bg-primary/5' 
+                    : 'border-border hover:bg-accent'
+                }`}
               >
-                <p className="text-sm font-medium text-foreground">{template.name}</p>
+                {selectedTemplates.includes(template.id) && (
+                  <div className="absolute top-2 right-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                    <Check className="w-3 h-3 text-primary-foreground" />
+                  </div>
+                )}
+                <p className="text-sm font-medium text-foreground pr-8">{template.name}</p>
                 <p className="text-xs text-muted-foreground mt-1">{template.content}</p>
               </button>
             ))}
+          </div>
+
+          <div className="flex gap-2 justify-end p-4 border-t">
+            <Button variant="outline" onClick={() => setShowTemplateDialog(false)}>
+              Batal
+            </Button>
+            <Button onClick={applySelectedTemplates}>
+              Terapkan
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

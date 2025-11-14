@@ -22,23 +22,16 @@ export const ContactCard = ({
   const [showDialog, setShowDialog] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
   const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
-  const labels = [{
-    id: "pegawai-baru",
-    name: "Pegawai Baru",
-    color: "bg-primary"
-  }, {
-    id: "pegawai-lama",
-    name: "Pegawai Lama",
-    color: "bg-accent"
-  }, {
-    id: "ultramen-jingga",
-    name: "Ultramen jingga",
-    color: "bg-secondary"
-  }];
+  const labels = [
+    { id: "vip", name: "VIP", color: "bg-green-500" },
+    { id: "new", name: "New", color: "bg-yellow-500" },
+    { id: "important", name: "Important", color: "bg-red-500" },
+  ];
+
   const labelColors = {
-    red: "bg-destructive/10 text-destructive",
-    yellow: "bg-accent text-accent-foreground",
-    green: "bg-primary/10 text-primary"
+    red: "bg-red-100 text-red-700",
+    yellow: "bg-yellow-100 text-yellow-700",
+    green: "bg-green-100 text-green-700"
   };
   const handleTouchStart = () => {
     if (onLongPress !== undefined) return;
