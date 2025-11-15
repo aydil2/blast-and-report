@@ -358,7 +358,7 @@ const Broadcast = () => {
       {/* Import Manual Dialog */}
       <Dialog open={showImportDialog} onOpenChange={setShowImportDialog}>
         <DialogContent className="max-w-[320px] max-h-[500px] overflow-hidden flex flex-col p-0">
-          <DialogHeader className="w-full h-[53px] bg-gradient-to-r from-primary to-primary/80 flex items-center px-4">
+          <DialogHeader className="w-full h-[53px] bg-gradient-to-r from-[#45E3FF] to-[#147FEB] flex items-center px-4">
             <DialogTitle className="text-primary-foreground text-lg font-semibold">Import manual</DialogTitle>
           </DialogHeader>
           
