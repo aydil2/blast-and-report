@@ -96,7 +96,7 @@ export const AddTemplateDialog = ({ open, onOpenChange, onAddTemplate }: AddTemp
           {/* Buttons */}
           <div className="flex justify-center gap-3 pt-2">
             <Button
-              variant="destructive"
+              variant="outline"
               onClick={handleCancel}
               className="px-8 font-medium"
             >
