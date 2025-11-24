@@ -55,7 +55,7 @@ export const AddTemplateDialog = ({ open, onOpenChange, onAddTemplate }: AddTemp
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[calc(100%-64px)] max-w-[329px] p-0 gap-0 rounded-[10px] overflow-hidden">
         {/* Header */}
-        <div className="bg-[#1FB5E8] px-5 py-4">
+        <div className="bg-gradient-to-r from-[#45E3FF] to-[#147FEB] px-5 py-4">
           <h2 className="text-white text-xl font-medium">Tambah Template</h2>
         </div>
 
@@ -104,7 +104,7 @@ export const AddTemplateDialog = ({ open, onOpenChange, onAddTemplate }: AddTemp
             </Button>
             <Button
               onClick={handleSave}
-              className="bg-[#1FB5E8] hover:bg-[#1BA5D8] text-white px-6 font-medium"
+              className="bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90 text-white px-6 font-medium"
             >
               Simpan Template
             </Button>
