@@ -73,8 +73,8 @@ export const ContactCard = ({
   };
   return <>
       <div className="flex items-center gap-4 p-4 bg-card border border-border rounded-lg hover:shadow-md transition-all duration-200 hover:border-primary/50 cursor-pointer select-none" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
-        <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary">
-          <span className="text-primary-foreground font-semibold">{initial}</span>
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-[#45E3FF] to-[#147FEB]">
+          <span className="text-white font-semibold">{initial}</span>
         </div>
         
         <div className="flex-1 min-w-0">
