@@ -58,7 +58,7 @@ export const EditTemplateDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[90%] max-w-[340px] rounded-[10px] bg-background border-none p-0">
-        <div className="bg-dialog-cyan h-[50px] rounded-t-[10px] flex items-center justify-center">
+        <div className="bg-gradient-to-r from-[#45E3FF] to-[#147FEB] h-[50px] rounded-t-[10px] flex items-center justify-center">
           <DialogHeader>
             <DialogTitle className="text-white text-xl font-medium">
               Edit Template
@@ -119,7 +119,7 @@ export const EditTemplateDialog = ({
               </Button>
               <Button
                 type="submit"
-                className="flex-1 h-[45px] rounded-[5px] bg-dialog-cyan hover:bg-dialog-cyan/90"
+                className="flex-1 h-[45px] rounded-[5px] bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90"
               >
                 Simpan
               </Button>
