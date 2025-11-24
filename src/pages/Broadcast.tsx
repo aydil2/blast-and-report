@@ -409,7 +409,7 @@ const Broadcast = () => {
             <Button variant="outline" onClick={() => setShowImportDialog(false)}>
               Batal
             </Button>
-            <Button onClick={saveManualContacts}>
+            <Button onClick={saveManualContacts} className="bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90">
               Simpan
             </Button>
           </div>
@@ -419,7 +419,7 @@ const Broadcast = () => {
       {/* Template Selection Dialog */}
       <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
         <DialogContent className="max-w-[320px] p-0 gap-0">
-          <DialogHeader className="w-full h-[53px] bg-gradient-to-r from-primary to-primary/80 flex items-center px-4 m-0">
+          <DialogHeader className="w-full h-[53px] bg-gradient-to-r from-[#45E3FF] to-[#147FEB] flex items-center px-4 m-0">
             <DialogTitle className="text-primary-foreground text-lg font-semibold">Pilih Template</DialogTitle>
           </DialogHeader>
           
@@ -449,7 +449,7 @@ const Broadcast = () => {
             <Button variant="outline" onClick={() => setShowTemplateDialog(false)}>
               Batal
             </Button>
-            <Button onClick={applySelectedTemplates}>
+            <Button onClick={applySelectedTemplates} className="bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90">
               Terapkan
             </Button>
           </div>
