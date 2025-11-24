@@ -61,7 +61,7 @@ export const AddContactDialog = ({ open, onOpenChange }: AddContactDialogProps) 
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit">Add Contact</Button>
+            <Button type="submit" className="bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90">Add Contact</Button>
           </DialogFooter>
         </form>
       </DialogContent>
