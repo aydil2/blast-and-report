@@ -67,9 +67,24 @@ export const ContactCard = ({
     setShowDialog(false);
     setSelectedLabels([]);
   };
+  
   const handleToggleLabel = (labelId: string) => {
-    setSelectedLabels(prev => prev.includes(labelId) ? prev.filter(id => id !== labelId) : [...prev, labelId]);
+    // Only allow one label at a time
+    if (selectedLabels.includes(labelId)) {
+      setSelectedLabels([]);
+    } else {
+      setSelectedLabels([labelId]);
+    }
   };
+  
+  const handleSaveLabel = () => {
+    if (selectedLabels.length > 0) {
+      console.log("Simpan label untuk kontak:", name, "Label:", selectedLabels[0]);
+    }
+    setShowDialog(false);
+    setSelectedLabels([]);
+  };
+  
   const handleRemoveLabel = () => {
     console.log("Hapus label dari kontak:", name);
     setShowDialog(false);
@@ -116,9 +131,18 @@ export const ContactCard = ({
             <Button variant="outline" onClick={handleCancel} className="flex-1">
               Batal
             </Button>
-            <Button variant="destructive" onClick={handleRemoveLabel} className="flex items-center gap-2">
-              <Trash2 className="w-4 h-4" />
-              Hapus
+            {label && (
+              <Button variant="destructive" onClick={handleRemoveLabel} className="flex items-center gap-2">
+                <Trash2 className="w-4 h-4" />
+                Hapus
+              </Button>
+            )}
+            <Button 
+              onClick={handleSaveLabel} 
+              disabled={selectedLabels.length === 0}
+              className="flex-1 bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90"
+            >
+              Simpan
             </Button>
           </div>
         </DialogContent>
