@@ -3,15 +3,18 @@ import { ContactCard } from "@/components/ContactCard";
 import { BottomNavigation } from "@/components/BottomNavigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, Filter } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Search, Plus, Filter, Trash2 } from "lucide-react";
 import { AddContactDialog } from "@/components/AddContactDialog";
 import { FilterContactDialog } from "@/components/FilterContactDialog";
+import { toast } from "sonner";
 
 const Contacts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showFilterDialog, setShowFilterDialog] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
+  const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
 
   const contacts = [
     { id: 1, name: "John Doe", phone: "+62 812 3456 7890", label: { text: "VIP", color: "green" as const } },
@@ -30,15 +33,49 @@ const Contacts = () => {
     return matchesSearch && matchesFilter;
   });
 
+  const isAllSelected = filteredContacts.length > 0 && selectedContacts.length === filteredContacts.length;
+
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedContacts([]);
+    } else {
+      setSelectedContacts(filteredContacts.map(c => c.id));
+    }
+  };
+
+  const handleSelectContact = (id: number) => {
+    setSelectedContacts(prev => 
+      prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
+    );
+  };
+
+  const handleDeleteSelected = () => {
+    toast.success(`${selectedContacts.length} kontak berhasil dihapus`);
+    setSelectedContacts([]);
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-foreground">List Contact</h1>
-          <Button variant="default" size="sm" className="gap-2 bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90" onClick={() => setShowAddDialog(true)}>
-            <Plus className="w-4 h-4" />
-            Add
-          </Button>
+          <div className="flex gap-2">
+            {selectedContacts.length > 0 && (
+              <Button 
+                variant="destructive" 
+                size="sm" 
+                className="gap-2" 
+                onClick={handleDeleteSelected}
+              >
+                <Trash2 className="w-4 h-4" />
+                Hapus ({selectedContacts.length})
+              </Button>
+            )}
+            <Button variant="default" size="sm" className="gap-2 bg-gradient-to-r from-[#45E3FF] to-[#147FEB] hover:opacity-90" onClick={() => setShowAddDialog(true)}>
+              <Plus className="w-4 h-4" />
+              Add
+            </Button>
+          </div>
         </div>
 
         <div className="mb-6 flex gap-2">
@@ -57,6 +94,18 @@ const Contacts = () => {
           </Button>
         </div>
 
+        {filteredContacts.length > 0 && (
+          <div className="flex items-center gap-3 mb-4 p-3 bg-card border border-border rounded-lg">
+            <Checkbox 
+              checked={isAllSelected}
+              onCheckedChange={handleSelectAll}
+            />
+            <span className="text-sm font-medium text-foreground">
+              {isAllSelected ? "Batalkan Semua" : "Pilih Semua"}
+            </span>
+          </div>
+        )}
+
         <div className="space-y-3">
           {filteredContacts.length > 0 ? (
             filteredContacts.map((contact) => (
@@ -65,6 +114,8 @@ const Contacts = () => {
                 name={contact.name}
                 phone={contact.phone}
                 label={contact.label}
+                isSelected={selectedContacts.includes(contact.id)}
+                onSelect={() => handleSelectContact(contact.id)}
               />
             ))
           ) : (
